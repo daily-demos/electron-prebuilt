@@ -1,4 +1,4 @@
-# Daily Electron demo
+# Daily Prebuilt Electron demo
 
 This demo highlights the [Daily Prebuilt](https://www.daily.co/blog/prebuilt-ui/), and how it can be used to create an Electron video call app.
 
