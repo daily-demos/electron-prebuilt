@@ -1,0 +1,14 @@
+{
+  "name": "electron-daily-prebuilt",
+  "version": "1.0.0",
+  "description": "Integrating the Daily Prebuilt into an Electron app",
+  "main": "main.js",
+  "scripts": {
+   "start": "electron ."
+  },
+  "author": "Liza Shulyayeva",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^15.3.1"
+  }
+}
