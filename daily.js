@@ -1,5 +1,4 @@
 const callFrame = window.DailyIframe.createFrame({
-  showLeaveButton: true,
   iframeStyle: {
     position: "fixed",
     width: "100%",
