@@ -1,4 +1,4 @@
-callFrame = window.DailyIframe.createFrame({
+const callFrame = window.DailyIframe.createFrame({
   showLeaveButton: true,
   iframeStyle: {
     position: "fixed",
