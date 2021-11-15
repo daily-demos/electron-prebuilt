@@ -10,5 +10,5 @@ window.addEventListener("DOMContentLoaded", () => {
     },
   });
   // TODO: Replace the following URL with your own room URL.
-  callFrame.join({ url: "https://<your-domain>.daily.co/<room-name>/" });
+  callFrame.join({ url: "https://<your-domain>.daily.co/<room-name>" });
 });
