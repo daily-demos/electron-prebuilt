@@ -1,8 +1,14 @@
-const callFrame = window.DailyIframe.createFrame({
-  iframeStyle: {
-    position: "fixed",
-    width: "100%",
-    height: "100%",
-  },
+window.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("container");
+
+  callFrame = window.DailyIframe.createFrame(container, {
+    showLeaveButton: true,
+    iframeStyle: {
+      position: "fixed",
+      width: "calc(100% - 1rem)",
+      height: "calc(100% - 1rem)",
+    },
+  });
+  // TODO: Replace the following URL with your own room URL.
+  callFrame.join({ url: "https://<your-domain>.daily.co/<room-name>/" });
 });
-callFrame.join({ url: "https://you.daily.co/hello" });
