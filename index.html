@@ -5,17 +5,25 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; frame-src 'self' https://*.daily.co; script-src 'self' https://unpkg.com/@daily-co/daily-js; worker-src 'self';"
-    />
-    <meta
-      http-equiv="X-Content-Security-Policy"
-      content="default-src 'self'; frame-src 'self' https://*.daily.co; script-src 'self' https://unpkg.com/@daily-co/daily-js; worker-src 'self';"
+      content="default-src 'self'; frame-src 'self' https://*.daily.co; script-src 'self' https://unpkg.com/@daily-co/daily-js http://localhost:8081/dist/daily-iframe.js http://localhost:8081/daily-iframe.js; worker-src 'self'; connect-src http://localhost:8081 ws://localhost:8081;"
     />
     <title>Daily + Electron <3</title>
   </head>
   <body>
     <div id="container"></div>
+    <!-- The following works: -->
     <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+
+    <!-- The following works when running `yarn build` in `daily-js` repo and copying `daily-iframe.js`: -->
+    <!-- <script src="./daily-iframe.js"></script> -->
+
+    <!-- The following works when running `yarn run dev` in `daily-js` repo: -->
+    <!-- <script src="http://localhost:8081/dist/daily-iframe.js"></script> -->
+
+    <!-- The following DOES NOT WORK when running `yarn run dev` in `daily-js` repo... -->
+    <!-- ...Unless you change NODE_ENV to "production" in `daily-js` package.json for the dev cmd. Otherwise, unsafe-eval CSP error occurs. -->
+    <!-- <script src="http://localhost:8081/daily-iframe.js"></script> -->
+
     <script src="daily.js"></script>
   </body>
 </html>
