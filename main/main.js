@@ -118,7 +118,7 @@ function createMenu() {
 
 // "set-background" event handler instructs the daily renderer
 // process to set the given background for the local participant.
-ipcMain.handle("set-background", (e, imgPath, doPublish) => {
+ipcMain.handle("set-background", (e, imgPath, doPublish = false) => {
   if (doPublish) {
     const wc = e.sender;
     const bgWindow = BrowserWindow.fromWebContents(wc);

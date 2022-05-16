@@ -27,9 +27,11 @@ window.addEventListener("set-background", (ev) => {
   const data = ev.detail;
   let imgPath = data.imgPath;
   imgPath = "bg://" + imgPath;
-  console.log("IMGPATH:", imgPath);
 
-  const doPublish = Boolean(data.publish);
+  const doPublish = data.doPublish;
+
+  console.log("doPublish:", doPublish);
+
   callFrame.updateInputSettings({
     video: {
       processor: {

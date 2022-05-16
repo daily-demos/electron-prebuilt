@@ -27,3 +27,7 @@ button {
   border-radius: 8px;
   border: none;
 }
+
+button:hover:enabled {
+  opacity: 0.6;
+}
