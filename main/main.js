@@ -15,7 +15,10 @@ let backgroundsLoaded = false;
 let callObjectReady = false;
 
 // We'll define a custom "bg" scheme to fetch our background images.
-// Register it as privileged so that the Fetch API can support it.
+// This allows us to load local images without disabling Electron's
+// web security, which would be bad.
+// Register the scheme as privileged so that the Fetch API
+// is allowed to support it.
 protocol.registerSchemesAsPrivileged([
   { scheme: "bg", privileges: { supportFetchAPI: true } },
 ]);
