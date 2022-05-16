@@ -45,7 +45,6 @@ function createCallWindow() {
     callWindow = null;
     app.quit();
   });
-  callWindow.openDevTools();
   callWindow.loadFile(
     path.join(__dirname, "../renderer", "call", "index.html")
   );
