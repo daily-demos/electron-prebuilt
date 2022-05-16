@@ -1,0 +1,29 @@
+#container {
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  width: 50%;
+  height: auto;
+}
+
+button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  width: 100%;
+  margin-top: 16px;
+  cursor: pointer;
+
+  position: static;
+  height: 32px;
+  left: 0px;
+
+  /* Light UI/accent */
+  background: #1bebb9;
+  border-radius: 8px;
+  border: none;
+}
