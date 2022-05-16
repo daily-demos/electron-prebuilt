@@ -1,27 +1,12 @@
-let selectedImgPath = null;
-let setBackgroundBtn = null;
-
 window.addEventListener("DOMContentLoaded", () => {
   init();
 });
 
 // Initialize relevant handlers
 function init() {
-  registerSetBackgroundButtonListener();
   const resetBtn = document.getElementById("reset");
   resetBtn.onclick = () => {
     api.resetBackground();
-    imgPath = selectedImgPath;
-  };
-}
-
-// Register the onclick event for the "Set Background" button
-function registerSetBackgroundButtonListener() {
-  setBackgroundBtn = document.getElementById("setBackground");
-  setBackgroundBtn.onclick = () => {
-    api.setBackground(selectedImgPath, true);
-    setBackgroundBtn.disabled = true;
-    selectedImgPath = null;
   };
 }
 
@@ -35,9 +20,7 @@ window.addEventListener("load-backgrounds", (event) => {
     const imgPath = backgrounds[i];
     img.src = imgPath;
     img.onclick = () => {
-      selectedImgPath = imgPath;
       api.setBackground(imgPath, false);
-      setBackgroundBtn.disabled = false;
     };
     container.appendChild(img);
   }

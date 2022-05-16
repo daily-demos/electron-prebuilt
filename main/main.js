@@ -31,21 +31,20 @@ function createCallWindow() {
     },
   });
 
-  // If the user closes the main call window, exit 
-  // the entire application even if the background 
+  // If the user closes the main call window, exit
+  // the entire application even if the background
   // options window is still open.
   callWindow.on("close", () => {
     callWindow = null;
     app.quit();
- });
+  });
 
   callWindow.loadFile(path.join(__dirname, "../html", "index.html"));
-  
 }
 
 // loadBackgroundFiles loads all jpg, jpeg, or png files in
 // the backgrounds file directory. This means to add a new
-// background, all the user has to do is drop the image into 
+// background, all the user has to do is drop the image into
 // the "backgrounds" folder, without any code changes.
 async function loadBackgroundFiles() {
   const dirPath = path.join(__dirname, "../backgrounds");
@@ -94,7 +93,6 @@ function createBackgroundSelectionWindow() {
     },
     autoHideMenuBar: true,
   });
-
   win.loadFile(path.join(__dirname, "../html", "background.html"));
 
   win.webContents.once("dom-ready", () => {
@@ -128,15 +126,9 @@ function createMenu() {
 
 // "set-background" event handler instructs the daily renderer
 // process to set the given background for the local participant.
-ipcMain.handle("set-background", (e, imgPath, doPublish = false) => {
-  if (doPublish) {
-    const wc = e.sender;
-    const bgWindow = BrowserWindow.fromWebContents(wc);
-    bgWindow.close();
-  }
+ipcMain.handle("set-background", (e, imgPath) => {
   callWindow.webContents.send("set-background", {
     imgPath: imgPath,
-    doPublish: doPublish,
   });
 });
 

@@ -14,8 +14,8 @@ ipcRenderer.on("load-backgrounds", (e, arg) => {
 // Functions which will be exposed to the background option
 // window renderer process
 contextBridge.exposeInMainWorld("api", {
-  setBackground: (imgPath, doPublish) => {
-    ipcRenderer.invoke("set-background", imgPath, doPublish);
+  setBackground: (imgPath) => {
+    ipcRenderer.invoke("set-background", imgPath);
   },
   resetBackground: () => {
     ipcRenderer.invoke("reset-background");

@@ -3,11 +3,9 @@ const { contextBridge, ipcRenderer } = require("electron");
 // This listener will allow us to handle attempts to set
 // the given virtual backround
 ipcRenderer.on("set-background", (e, arg) => {
-  console.log("calling set-background", arg, arg.doPublish);
   const event = new CustomEvent("set-background", {
     detail: {
       imgPath: arg.imgPath,
-      doPublish: arg.doPublish,
     },
   });
   window.dispatchEvent(event);

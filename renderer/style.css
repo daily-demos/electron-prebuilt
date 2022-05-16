@@ -5,32 +5,45 @@
 }
 
 img {
-  width: 50%;
+  width: calc(50% - 5px);
   height: auto;
+  margin: 1px;
+  opacity: 0.9;
+
+  /* The background image will be mirrored once 
+  applied, so do the same in selection window 
+  to ensure an accurate preview */
   transform: scaleX(-1);
 }
 
-button {
+img:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+#bgImages {
+  margin-top: 15px;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+button {
   justify-content: center;
   align-items: center;
   padding: 8px 16px;
-  width: 100%;
-  margin-top: 16px;
+  width: calc(50% - 5px);
+  height: auto;
   cursor: pointer;
-
-  position: static;
-  height: 32px;
-  left: 0px;
+  margin: 1px;
 
   /* Light UI/accent */
   background: #1bebb9;
+  opacity: 0.6;
   border-radius: 8px;
   border: none;
 }
 
 button:hover:enabled {
-  opacity: 0.6;
+  opacity: 1;
   cursor: pointer;
 }
