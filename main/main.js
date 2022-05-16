@@ -133,9 +133,6 @@ ipcMain.handle("set-background", (e, imgPath, doPublish = false) => {
 // "reset-background" event handler instructs the daily renderer
 // process to reset any custom backgrounds for the local participant.
 ipcMain.handle("reset-background", (e) => {
-  const wc = e.sender;
-  const bgWindow = BrowserWindow.fromWebContents(wc);
-  bgWindow.close();
   callWindow.webContents.send("reset-background");
 });
 

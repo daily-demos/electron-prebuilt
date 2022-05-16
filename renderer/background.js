@@ -8,8 +8,8 @@ window.addEventListener("DOMContentLoaded", () => {
 // Initialize relevant handlers
 function init() {
   registerSetBackgroundButtonListener();
-  const cancelBtn = document.getElementById("cancel");
-  cancelBtn.onclick = () => {
+  const resetBtn = document.getElementById("reset");
+  resetBtn.onclick = () => {
     api.resetBackground();
     imgPath = selectedImgPath;
   };
@@ -18,7 +18,7 @@ function init() {
 // Register the onclick event for the "Set Background" button
 function registerSetBackgroundButtonListener() {
   setBackgroundBtn = document.getElementById("setBackground");
-  setBackgroundBtn.onclick = (ev) => {
+  setBackgroundBtn.onclick = () => {
     api.setBackground(selectedImgPath, true);
     setBackgroundBtn.disabled = true;
     selectedImgPath = null;
