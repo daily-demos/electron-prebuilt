@@ -15,7 +15,7 @@ let backgroundsLoaded = false;
 let callObjectReady = false;
 
 // We'll define a custom "bg" scheme to fetch our background images.
-// Register it as privileged so that the Fetch API can support it
+// Register it as privileged so that the Fetch API can support it.
 protocol.registerSchemesAsPrivileged([
   { scheme: "bg", privileges: { supportFetchAPI: true } },
 ]);
@@ -30,12 +30,23 @@ function createCallWindow() {
       preload: path.join(__dirname, "preloadCall.js"),
     },
   });
-  callWindow.webContents.openDevTools();
+
+  // If the user closes the main call window, exit 
+  // the entire application even if the background 
+  // options window is still open.
+  callWindow.on("close", () => {
+    callWindow = null;
+    app.quit();
+ });
+
   callWindow.loadFile(path.join(__dirname, "../html", "index.html"));
+  
 }
 
 // loadBackgroundFiles loads all jpg, jpeg, or png files in
-// the backgrounds file directory
+// the backgrounds file directory. This means to add a new
+// background, all the user has to do is drop the image into 
+// the "backgrounds" folder, without any code changes.
 async function loadBackgroundFiles() {
   const dirPath = path.join(__dirname, "../backgrounds");
   fs.readdir(dirPath, function (err, files) {
@@ -83,7 +94,6 @@ function createBackgroundSelectionWindow() {
     },
     autoHideMenuBar: true,
   });
-  win.webContents.openDevTools();
 
   win.loadFile(path.join(__dirname, "../html", "background.html"));
 
