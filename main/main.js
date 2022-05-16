@@ -85,7 +85,7 @@ app.whenReady().then(() => {
   loadBackgroundFiles();
 });
 
-// createBackgroundSelection window creates a window in which the user
+// createBackgroundSelectionWindow creates a window in which the user
 // can select a Daily video call background to set.
 function createBackgroundSelectionWindow() {
   const win = new BrowserWindow({
