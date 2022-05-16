@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, protocol } = require("electron");
+const { app, BrowserWindow, ipcMain, protocol } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -14,7 +14,8 @@ let backgroundsLoaded = false;
 // setting API requests.
 let callObjectReady = false;
 
-let backgroundMenuButton = null;
+// Whether the backgrounds window is open
+let backgroundsWindowOpen = false;
 
 // We'll define a custom "bg" scheme to fetch our background images.
 // This allows us to load local images without disabling Electron's
@@ -34,6 +35,7 @@ function createCallWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preloadCall.js"),
     },
+    autoHideMenuBar: true,
   });
 
   // If the user closes the main call window, exit
@@ -43,8 +45,10 @@ function createCallWindow() {
     callWindow = null;
     app.quit();
   });
-
-  callWindow.loadFile(path.join(__dirname, "../html", "index.html"));
+  callWindow.openDevTools();
+  callWindow.loadFile(
+    path.join(__dirname, "../renderer", "call", "index.html")
+  );
 }
 
 // loadBackgroundFiles loads all jpg, jpeg, or png files in
@@ -81,7 +85,6 @@ app.whenReady().then(() => {
     const path = request.url.substring(5, url.length);
     callback({ path: path });
   });
-  createMenu();
   createCallWindow();
   loadBackgroundFiles();
 });
@@ -89,7 +92,9 @@ app.whenReady().then(() => {
 // createBackgroundSelectionWindow creates a window in which the user
 // can select a Daily video call background to set.
 function createBackgroundSelectionWindow() {
-  backgroundMenuButton.enabled = false;
+  if (backgroundsWindowOpen) return;
+
+  backgroundsWindowOpen = true;
 
   const win = new BrowserWindow({
     width: 500,
@@ -100,39 +105,17 @@ function createBackgroundSelectionWindow() {
     autoHideMenuBar: true,
   });
 
-  win.loadFile(path.join(__dirname, "../html", "background.html"));
+  win.loadFile(
+    path.join(__dirname, "../renderer", "background", "background.html")
+  );
 
   win.webContents.once("dom-ready", () => {
     win.webContents.send("load-backgrounds", { backgrounds: backgroundFiles });
   });
 
-  // Re-enable the menu button when the background selection window
-  // is closed.
   win.on("close", () => {
-    backgroundMenuButton.enabled = true;
+    backgroundsWindowOpen = false;
   });
-}
-
-// createMenu creates our application menu with the background setting option.
-function createMenu() {
-  const template = [
-    {
-      label: "Options",
-      submenu: [
-        {
-          id: "background",
-          label: "Background 🏔️",
-          enabled: false,
-          click: async () => {
-            createBackgroundSelectionWindow();
-          },
-        },
-      ],
-    },
-  ];
-  const menu = Menu.buildFromTemplate(template);
-  backgroundMenuButton = menu.getMenuItemById("background");
-  Menu.setApplicationMenu(menu);
 }
 
 // "set-background" event handler instructs the daily renderer
