@@ -16,7 +16,7 @@ function initCall() {
     },
   })
     .on("nonfatal-error", (e) => {
-      console.log(`nonfatal error: ${e}`);
+      console.warn("nonfatal error:", e);
     })
     .on("started-camera", () => {
       api.tryEnableBackgrounds();
