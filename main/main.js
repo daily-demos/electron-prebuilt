@@ -14,6 +14,8 @@ let backgroundsLoaded = false;
 // setting API requests.
 let callObjectReady = false;
 
+let backgroundMenuButton = null;
+
 // We'll define a custom "bg" scheme to fetch our background images.
 // This allows us to load local images without disabling Electron's
 // web security, which would be bad.
@@ -79,15 +81,16 @@ app.whenReady().then(() => {
     const path = request.url.substring(5, url.length);
     callback({ path: path });
   });
-
-  createCallWindow();
   createMenu();
+  createCallWindow();
   loadBackgroundFiles();
 });
 
 // createBackgroundSelectionWindow creates a window in which the user
 // can select a Daily video call background to set.
 function createBackgroundSelectionWindow() {
+  backgroundMenuButton.enabled = false;
+
   const win = new BrowserWindow({
     width: 500,
     height: 500,
@@ -96,10 +99,17 @@ function createBackgroundSelectionWindow() {
     },
     autoHideMenuBar: true,
   });
+
   win.loadFile(path.join(__dirname, "../html", "background.html"));
 
   win.webContents.once("dom-ready", () => {
     win.webContents.send("load-backgrounds", { backgrounds: backgroundFiles });
+  });
+
+  // Re-enable the menu button when the background selection window
+  // is closed.
+  win.on("close", () => {
+    backgroundMenuButton.enabled = true;
   });
 }
 
@@ -114,9 +124,6 @@ function createMenu() {
           label: "Background 🏔️",
           enabled: false,
           click: async () => {
-            // Disable the button when the background selection
-            // window is opened.
-            this.enabled = false;
             createBackgroundSelectionWindow();
           },
         },
@@ -124,6 +131,7 @@ function createMenu() {
     },
   ];
   const menu = Menu.buildFromTemplate(template);
+  backgroundMenuButton = menu.getMenuItemById("background");
   Menu.setApplicationMenu(menu);
 }
 
@@ -154,7 +162,9 @@ ipcMain.handle("try-enable-backgrounds", () => {
 // object is ready.
 function tryEnableBackgroundSet() {
   if (backgroundsLoaded && callObjectReady) {
-    const menuItem = Menu.getApplicationMenu().getMenuItemById("background");
-    menuItem.enabled = true;
+    // When first enabling the feature, open the window for
+    // the user. After that, the user will use the menu item
+    // to change their background.
+    createBackgroundSelectionWindow();
   }
 }
