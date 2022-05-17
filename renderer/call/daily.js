@@ -7,6 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
 function initCall() {
   const container = document.getElementById("container");
 
+  const url = new URL("./backgroundButton.png", document.baseURI);
+  url.protocol = "bg";
+
   callFrame = DailyIframe.createFrame(container, {
     showLeaveButton: true,
     iframeStyle: {
@@ -14,15 +17,28 @@ function initCall() {
       width: "calc(100% - 1rem)",
       height: "calc(100% - 1rem)",
     },
+    // Specify a custom button for background controls
+    customTrayButtons: {
+      backgrounds: {
+        iconPath: url.href,
+        label: "Background",
+        tooltip: "Set Custom Background",
+      },
+    },
   })
     .on("nonfatal-error", (e) => {
       console.warn("nonfatal error:", e);
     })
-    .on("started-camera", () => {
-      api.tryEnableBackgrounds();
-    })
     .on("left-meeting", () => {
       initCall();
+    })
+    .on("custom-button-click", (ev) => {
+      // If the event is triggered by clicking
+      // our background button, show the
+      // background selection window
+      if (ev.button_id === "backgrounds") {
+        api.tryEnableBackgrounds();
+      }
     });
 
   // TODO: Replace the following URL with your own room URL.
