@@ -12,7 +12,7 @@ This demo embeds the Daily Prebuit iframe into an Electron application.
 
 ## Running locally
 
-1. Replace the room URL in `daily.js` with the URL of your own room.
+1. Replace the room URL in `daily.js` with the URL of your own room. Note that on this feature branch, `daily.js` has moved to the `renderer` directory.
 1. Install dependencies `npm i`
 1. Run `npm start`
 
